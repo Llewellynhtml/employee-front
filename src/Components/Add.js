@@ -10,7 +10,10 @@ const[position, setPosition]=useState("");
 const[id, setId]=useState("")
 const[gender, setGender]=useState("")
 
+const add= ()=>{
 
+
+}
 
 return(
 <div>
@@ -18,22 +21,17 @@ return(
 
 <input type="text"  placeholder="Name" onChange={(event)=> setName (event.target.value) }/>
 <input type="text"  placeholder="Email" onChange={(event)=> setEmail (event.target.value) }/>
-<input type="text"  placeholder="Phone Number" onChange={(event)=> setNumber (event.target.value) }/>
+<input type="text"  placeholder="Number" onChange={(event)=> setNumber (event.target.value) }/>
 <input type="text"  placeholder="image" onChange={(event)=> setImage (event.target.value) }/> 
 <input type="text"  placeholder="position" onChange={(event)=> setPosition (event.target.value) }/>
 <input type="text"  placeholder="ID" onChange={(event)=> setId (event.target.value) }/> 
 <input type="text"  placeholder="Gender" onChange={(event)=> setGender (event.target.value) }/> 
+<input type="text"  placeholder="City" onChange={(event)=> setGender (event.target.value) }/> 
+<input type="text"  placeholder="Province" onChange={(event)=> setGender (event.target.value) }/> 
+<input type="text"  placeholder="Zip Code" onChange={(event)=> setGender (event.target.value) }/> 
 
 
-<select>
-<option>City</option>
-<option>State</option>
-<option>Zip Code</option>
-<option>region</option>
-<option>Street Address</option>
-</select>
-
-    <button> Add employee information </button>
+    <button onClick={add}> Add information </button>
 
 
     <h1>Medical Condition</h1>
@@ -57,33 +55,6 @@ return(
 
 <button>Add education history</button>
 
-<h1>Professional experience</h1>
-
-<input type="text"  placeholder="Professional certification and License"/>
-<input type="text"  placeholder="Previous Work experience"/>
-
-<button>Submit info</button>
-
-<h1>Employee information</h1>
-
-<input type="text"  placeholder="Title"/>
-<input type="text"  placeholder="Date of hire"/>
-<input type="text"  placeholder="Department"/>
-<h2>Employee status</h2>
-
-
-<input type="Checkbox" id="javascript" name="fav_language" value="JavaScript"/>
-<label for="html">INTERN</label>
-<input type="Checkbox" id="javascript" name="fav_language" value="JavaScript"/>
-<label for="html">FULL TIME</label>
-<input type="Checkbox" id="javascript" name="fav_language" value="JavaScript"/>
-<label for="html">PART-TIME</label>
-<input type="Checkbox" id="javascript" name="fav_language" value="JavaScript"/>
-<label for="html">CONTRACT</label>
-<input type="Checkbox" id="javascript" name="fav_language" value="JavaScript"/>
-<label for="html">OTHERS</label>
-
-<button>Submit status</button>
 
 </div>
 
