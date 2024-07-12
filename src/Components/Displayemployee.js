@@ -29,6 +29,7 @@ function Displayemployee(props) {
               <td>{data.City}</td>
               <td>{data.Province}</td>
               <td>{data.ZipCode}</td>
+              <td>{data.ZipCode}</td>
             </tr>
           </table>
         </div>

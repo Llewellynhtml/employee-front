@@ -5,9 +5,9 @@ return (
     
 <div className="topNav">
 
-    <h1>Employee Data</h1>
+    <h1>Employee Id Data</h1>
 
-<input type="text" placeholder="Employee Id"></input>
+<input type="text" placeholder="Employee by Id"></input>
 
 </div>
 
