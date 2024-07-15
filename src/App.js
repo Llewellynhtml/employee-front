@@ -3,6 +3,7 @@ import './App.css';
 import AddEmployeeInformation from './Components/Add';
 import Displayemployee from './Components/Displayemployee';
 import Search from './Components/Search';
+import Editemployee from './Components/Editemployee';
 
 import { useState } from 'react';
 
@@ -26,6 +27,7 @@ console.log(employee)
 <Search/>
 <AddEmployeeInformation add={add}/>
 <Displayemployee employee={employee} edit={edit} />
+<Editemployee employee={employee} edit={edit} selectedEmployee={employee} />
 
     </div>
   );

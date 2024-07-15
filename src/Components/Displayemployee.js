@@ -1,4 +1,17 @@
+import React from "react"
+
+
 function Displayemployee(props) {
+
+  const RemoveEmployee = (empID) =>{
+    props.RemoveEmployee(empID);
+  };
+
+  const EditEmployee = (empID) => {
+    props.SelectEmployee(empID);
+
+    props.Update();
+  }
   return (
     <div>
       <h1> Employee History</h1>
@@ -17,6 +30,7 @@ function Displayemployee(props) {
               <th>City</th>
               <th>Province</th>
               <th>ZipCode</th>
+              <th>Update</th>
             </tr>
             <tr>
               <td>{data.Name}</td>
@@ -29,7 +43,17 @@ function Displayemployee(props) {
               <td>{data.City}</td>
               <td>{data.Province}</td>
               <td>{data.ZipCode}</td>
-              <td>{data.ZipCode}</td>
+              <td>
+                
+               <div>
+               <button value={data.employeeID} onClick={() => EditEmployee(data.employeeID)}>Edit</button>
+
+               <button value={data.employeeID} onClick={() => RemoveEmployee(data.employeeID)}>Delete</button>
+
+               </div>
+
+
+              </td>
             </tr>
           </table>
         </div>
