@@ -99,18 +99,6 @@ function Editemployee(props) {
       </div>
       <div>{isEmployeeSelected ? "" : null}</div>
       <div className="model content">
-        <p>Are you sure you want to edit?</p>
-        <div>
-          <button
-            className="btn success"
-            onClick={() => FilterEmployee(props.selectedEmployee[0].employeeID)}
-          >
-            Yes
-          </button>
-          <button className="btn danger" onClick={CancelEdit}>
-            No
-          </button>
-        </div>
         <div className="Searchid">
           <input
             type="text"

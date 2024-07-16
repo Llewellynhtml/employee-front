@@ -4,6 +4,7 @@ import AddEmployeeInformation from './Components/Add';
 import Displayemployee from './Components/Displayemployee';
 import Search from './Components/Search';
 import Editemployee from './Components/Editemployee';
+import Tabs from './Components/Tabs';
 
 import { useState } from 'react';
 
@@ -22,12 +23,28 @@ function App() {
 
 console.log(employee)
 
+const tabs = [
+  {
+    label: 'Add Em',
+    content: <div><AddEmployeeInformation add={add}/></div>
+  },
+  {
+    label: 'Display',
+    content: <div><Displayemployee employee={employee} edit={edit} /></div>
+  },
+  {
+    label: 'Edit',
+    content: <div><Editemployee employee={employee} edit={edit} selectedEmployee={employee} /></div>
+  }
+];
+
+
   return (
     <div className="App">
-<Search/>
-<AddEmployeeInformation add={add}/>
-<Displayemployee employee={employee} edit={edit} />
-<Editemployee employee={employee} edit={edit} selectedEmployee={employee} />
+      <div>
+    <h2>Employee App</h2>
+    <Tabs tabs={tabs} />
+  </div>
 
     </div>
   );

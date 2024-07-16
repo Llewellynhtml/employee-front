@@ -103,3 +103,31 @@ display: flex;
 justify-content: center;
 align-items: center;
 }
+
+.tabs {
+  width: 100%;
+}
+
+.tab-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tab-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  user-select: none;
+}
+
+.tab-item.active {
+  background-color: #fff;
+  border-bottom: 1px solid #fff;
+}
+
+.tab-content {
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  padding: 20px;
+}
