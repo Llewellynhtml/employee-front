@@ -124,6 +124,7 @@ align-items: center;
 .tab-item.active {
   background-color: #fff;
   border-bottom: 1px solid #fff;
+  border-radius: 10%;
 }
 
 .tab-content {
@@ -131,3 +132,80 @@ align-items: center;
   border: 1px solid #ccc;
   padding: 20px;
 }
+
+.container-sm {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f4f4f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h3, h2 {
+  text-align: center;
+  color: #333;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 10px 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.update-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.model.content {
+  margin-bottom: 20px;
+}
+
+.Searchid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Searchid input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+

@@ -11,33 +11,31 @@ function Editemployee(props) {
   const [gender, setGender] = useState("");
   const [city, setCity] = useState("");
   const [province, setProvince] = useState("");
-  const [ZipCode, setZipCode] = useState("");
+  const [zipCode, setZipCode] = useState("");
 
   const FilterEmployee = (employeeID) => {
-    const EmployeeData = props.EmployeeData.filter(
-      (employee) => employee.employeeID === employeeID
+    const selectedEmployee = props.employees.find(
+      (employee) => employee.ID === employeeID
     );
-    if (EmployeeData.length === 0) {
-      alert("User Not Found");
+
+    if (!selectedEmployee) {
+      alert("Employee not found!");
       return;
     }
-    if (EmployeeData[0]) {
-      setName(EmployeeData[0].employeeName);
-      setEmail(EmployeeData[0].employeeEmail);
-      setNumber(EmployeeData[0].employeeNumber);
-      setImage(EmployeeData[0].employeeImage);
-      setPosition(EmployeeData[0].employeePosition);
-      setId(EmployeeData[0].employeeID);
-      setGender(EmployeeData[0].employeeGender);
-      setCity(EmployeeData[0].employeeCity);
-      setProvince(EmployeeData[0].employeeProvince);
-      setZipCode(EmployeeData[0].employeeZipCode);
-    } else {
-      props.selectEmployee(null);
-    }
-  };
 
-  const isEmployeeSelected = props.selectedEmployee.length === 1;
+    setName(selectedEmployee.Name);
+    setEmail(selectedEmployee.Email);
+    setNumber(selectedEmployee.Number);
+    setImage(selectedEmployee.Image);
+    setPosition(selectedEmployee.Position);
+    setId(selectedEmployee.ID);
+    setGender(selectedEmployee.Gender);
+    setCity(selectedEmployee.City);
+    setProvince(selectedEmployee.Province);
+    setZipCode(selectedEmployee.ZipCode);
+
+    props.selectEmployee(selectedEmployee);
+  };
 
   const CancelEdit = () => {
     setName("");
@@ -54,42 +52,36 @@ function Editemployee(props) {
   };
 
   const UpdateEmployee = () => {
-    const isFormValid = props.FormValidation(
-      name,
-      email,
-      number,
-      image,
-      position,
-      id,
-      gender,
-      city,
-      province,
-      ZipCode
-    );
-    if (isFormValid) {
-      props.UpdateEmployee(
-        name,
-        email,
-        number,
-        image,
-        position,
-        id,
-        gender,
-        city,
-        province,
-        ZipCode
-      );
-      setName("");
-      setEmail("");
-      setNumber("");
-      setImage("");
-      setPosition("");
-      setId("");
-      setGender("");
-      setCity("");
-      setProvince("");
-      setZipCode("");
+    if (!name || !email || !number) {
+      alert("Please fill out all required fields.");
+      return;
     }
+
+    const updatedEmployee = {
+      Name: name,
+      Email: email,
+      Number: number,
+      Image: image,
+      Position: position,
+      ID: id,
+      Gender: gender,
+      City: city,
+      Province: province,
+      ZipCode: zipCode
+    };
+
+    props.updateEmployee(updatedEmployee);
+
+    setName("");
+    setEmail("");
+    setNumber("");
+    setImage("");
+    setPosition("");
+    setId("");
+    setGender("");
+    setCity("");
+    setProvince("");
+    setZipCode("");
   };
 
   return (
@@ -97,7 +89,6 @@ function Editemployee(props) {
       <div>
         <h3>Update Employee Info</h3>
       </div>
-      <div>{isEmployeeSelected ? "" : null}</div>
       <div className="model content">
         <div className="Searchid">
           <input
@@ -109,7 +100,7 @@ function Editemployee(props) {
             value={searchID}
             required
           />
-          <button onClick={() => FilterEmployee(searchID)}>Search</button>
+          <button className="btn search-btn" onClick={() => FilterEmployee(searchID)}>Search</button>
         </div>
       </div>
       <div>
@@ -123,9 +114,9 @@ function Editemployee(props) {
                   <input
                     type="text"
                     name="name"
-                    onChange={(event) => setName(event.target.value)}
-                    placeholder="Name"
+                    onChange={(e) => setName(e.target.value)}
                     value={name}
+                    placeholder="Name"
                   />
                 </td>
               </tr>
@@ -135,9 +126,9 @@ function Editemployee(props) {
                   <input
                     type="text"
                     name="email"
-                    onChange={(event) => setEmail(event.target.value)}
-                    placeholder="Email"
+                    onChange={(e) => setEmail(e.target.value)}
                     value={email}
+                    placeholder="Email"
                   />
                 </td>
               </tr>
@@ -147,9 +138,9 @@ function Editemployee(props) {
                   <input
                     type="text"
                     name="number"
-                    onChange={(event) => setNumber(event.target.value)}
-                    placeholder="Number"
+                    onChange={(e) => setNumber(e.target.value)}
                     value={number}
+                    placeholder="Number"
                   />
                 </td>
               </tr>
@@ -159,9 +150,9 @@ function Editemployee(props) {
                   <input
                     type="text"
                     name="image"
-                    onChange={(event) => setImage(event.target.value)}
-                    placeholder="Image"
+                    onChange={(e) => setImage(e.target.value)}
                     value={image}
+                    placeholder="Image URL"
                   />
                 </td>
               </tr>
@@ -171,9 +162,9 @@ function Editemployee(props) {
                   <input
                     type="text"
                     name="position"
-                    onChange={(event) => setPosition(event.target.value)}
-                    placeholder="Position"
+                    onChange={(e) => setPosition(e.target.value)}
                     value={position}
+                    placeholder="Position"
                   />
                 </td>
               </tr>
@@ -183,9 +174,9 @@ function Editemployee(props) {
                   <input
                     type="text"
                     name="id"
-                    onChange={(event) => setId(event.target.value)}
-                    placeholder="ID"
+                    onChange={(e) => setId(e.target.value)}
                     value={id}
+                    placeholder="ID"
                   />
                 </td>
               </tr>
@@ -195,9 +186,9 @@ function Editemployee(props) {
                   <input
                     type="text"
                     name="gender"
-                    onChange={(event) => setGender(event.target.value)}
-                    placeholder="Gender"
+                    onChange={(e) => setGender(e.target.value)}
                     value={gender}
+                    placeholder="Gender"
                   />
                 </td>
               </tr>
@@ -207,9 +198,9 @@ function Editemployee(props) {
                   <input
                     type="text"
                     name="city"
-                    onChange={(event) => setCity(event.target.value)}
-                    placeholder="City"
+                    onChange={(e) => setCity(e.target.value)}
                     value={city}
+                    placeholder="City"
                   />
                 </td>
               </tr>
@@ -219,26 +210,32 @@ function Editemployee(props) {
                   <input
                     type="text"
                     name="province"
-                    onChange={(event) => setProvince(event.target.value)}
-                    placeholder="Province"
+                    onChange={(e) => setProvince(e.target.value)}
                     value={province}
+                    placeholder="Province"
                   />
                 </td>
               </tr>
               <tr>
-                <td>ZipCode</td>
+                <td>Zip Code</td>
                 <td>
                   <input
                     type="text"
                     name="zipcode"
-                    onChange={(event) => setZipCode(event.target.value)}
-                    placeholder="ZipCode"
-                    value={ZipCode}
+                    onChange={(e) => setZipCode(e.target.value)}
+                    value={zipCode}
+                    placeholder="Zip Code"
                   />
                 </td>
               </tr>
             </tbody>
           </table>
+          <button type="button" className="btn update-btn" onClick={UpdateEmployee}>
+            Update Employee
+          </button>
+          <button type="button" className="btn cancel-btn" onClick={CancelEdit}>
+            Cancel
+          </button>
         </form>
       </div>
     </div>

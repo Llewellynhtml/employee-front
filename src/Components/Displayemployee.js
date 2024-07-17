@@ -1,24 +1,21 @@
-import React from "react"
-
+import React from "react";
 
 function Displayemployee(props) {
-
-  const RemoveEmployee = (empID) =>{
-    props.RemoveEmployee(empID);
+  const handleRemoveEmployee = (empID) => {
+    props.removeEmployee(empID);
   };
 
-  const EditEmployee = (empID) => {
-    props.SelectEmployee(empID);
+  const handleEditEmployee = (empID) => {
+    // Handle editing logic here
+    // Example: props.updateEmployee(updatedEmployee);
+  };
 
-    props.Update();
-  }
   return (
     <div>
-      <h1> Employee History</h1>
-
-      {props.employee.map((data) => (
-        <div className="displayitem">
-          <table>
+      <h1>Employee History</h1>
+      {props.employees.length > 0 ? (
+        <table>
+          <thead>
             <tr>
               <th>Name</th>
               <th>Email</th>
@@ -30,34 +27,29 @@ function Displayemployee(props) {
               <th>City</th>
               <th>Province</th>
               <th>ZipCode</th>
-              <th>Update</th>
             </tr>
-            <tr>
-              <td>{data.Name}</td>
-              <td>{data.Email}</td>
-              <td>{data.Number}</td>
-              <td>{data.Image}</td>
-              <td>{data.Position}</td>
-              <td>{data.ID}</td>
-              <td>{data.Gender}</td>
-              <td>{data.City}</td>
-              <td>{data.Province}</td>
-              <td>{data.ZipCode}</td>
-              <td>
-                
-               <div>
-               <button value={data.employeeID} onClick={() => EditEmployee(data.employeeID)}>Edit</button>
-
-               <button value={data.employeeID} onClick={() => RemoveEmployee(data.employeeID)}>Delete</button>
-
-               </div>
-
-
-              </td>
-            </tr>
-          </table>
-        </div>
-      ))}
+          </thead>
+          <tbody>
+            {props.employees.map((employee) => (
+              <tr key={employee.ID}>
+                <td>{employee.Name}</td>
+                <td>{employee.Email}</td>
+                <td>{employee.Number}</td>
+                <td>{employee.Image}</td>
+                <td>{employee.Position}</td>
+                <td>{employee.ID}</td>
+                <td>{employee.Gender}</td>
+                <td>{employee.City}</td>
+                <td>{employee.Province}</td>
+                <td>{employee.ZipCode}</td>
+                <td></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No employees found.</p>
+      )}
     </div>
   );
 }
