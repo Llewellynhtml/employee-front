@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-function Editemployee(props) {
-  const [searchID, setSearchID] = useState("");
+function Editemployee({ selectedEmployee, updateEmployee, clearSelectedEmployee }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
@@ -13,42 +12,23 @@ function Editemployee(props) {
   const [province, setProvince] = useState("");
   const [zipCode, setZipCode] = useState("");
 
-  const FilterEmployee = (employeeID) => {
-    const selectedEmployee = props.employees.find(
-      (employee) => employee.ID === employeeID
-    );
-
-    if (!selectedEmployee) {
-      alert("Employee not found!");
-      return;
+  useEffect(() => {
+    if (selectedEmployee) {
+      setName(selectedEmployee.Name);
+      setEmail(selectedEmployee.Email);
+      setNumber(selectedEmployee.Number);
+      setImage(selectedEmployee.Image);
+      setPosition(selectedEmployee.Position);
+      setId(selectedEmployee.ID);
+      setGender(selectedEmployee.Gender);
+      setCity(selectedEmployee.City);
+      setProvince(selectedEmployee.Province);
+      setZipCode(selectedEmployee.ZipCode);
     }
-
-    setName(selectedEmployee.Name);
-    setEmail(selectedEmployee.Email);
-    setNumber(selectedEmployee.Number);
-    setImage(selectedEmployee.Image);
-    setPosition(selectedEmployee.Position);
-    setId(selectedEmployee.ID);
-    setGender(selectedEmployee.Gender);
-    setCity(selectedEmployee.City);
-    setProvince(selectedEmployee.Province);
-    setZipCode(selectedEmployee.ZipCode);
-
-    props.selectEmployee(selectedEmployee);
-  };
+  }, [selectedEmployee]);
 
   const CancelEdit = () => {
-    setName("");
-    setEmail("");
-    setNumber("");
-    setImage("");
-    setPosition("");
-    setId("");
-    setGender("");
-    setCity("");
-    setProvince("");
-    setZipCode("");
-    props.selectEmployee(null);
+    clearSelectedEmployee();
   };
 
   const UpdateEmployee = () => {
@@ -70,38 +50,14 @@ function Editemployee(props) {
       ZipCode: zipCode
     };
 
-    props.updateEmployee(updatedEmployee);
-
-    setName("");
-    setEmail("");
-    setNumber("");
-    setImage("");
-    setPosition("");
-    setId("");
-    setGender("");
-    setCity("");
-    setProvince("");
-    setZipCode("");
+    updateEmployee(updatedEmployee);
+    clearSelectedEmployee();
   };
 
   return (
     <div id="edit" className="container-sm">
       <div>
         <h3>Update Employee Info</h3>
-      </div>
-      <div className="model content">
-        <div className="Searchid">
-          <input
-            type="text"
-            className="form-control"
-            id="searchID"
-            placeholder="Enter employee ID"
-            onChange={(e) => setSearchID(e.target.value)}
-            value={searchID}
-            required
-          />
-          <button className="btn search-btn" onClick={() => FilterEmployee(searchID)}>Search</button>
-        </div>
       </div>
       <div>
         <h2>Employee Form</h2>

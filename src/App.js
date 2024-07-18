@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import AddEmployeeInformation from './Components/AddEmployeeInformation';
+import AddEmployeeInformation from './Components/Add';
 import Displayemployee from './Components/Displayemployee';
 import Editemployee from './Components/Editemployee';
 import Tabs from './Components/Tabs';
