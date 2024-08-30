@@ -4,7 +4,7 @@ function Editemployee({ selectedEmployee, updateEmployee, clearSelectedEmployee 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null); // Update to store the file
   const [position, setPosition] = useState("");
   const [id, setId] = useState("");
   const [gender, setGender] = useState("");
@@ -17,7 +17,7 @@ function Editemployee({ selectedEmployee, updateEmployee, clearSelectedEmployee 
       setName(selectedEmployee.Name);
       setEmail(selectedEmployee.Email);
       setNumber(selectedEmployee.Number);
-      setImage(selectedEmployee.Image);
+      setImage(selectedEmployee.Image ? null : null); // Set image URL or null
       setPosition(selectedEmployee.Position);
       setId(selectedEmployee.ID);
       setGender(selectedEmployee.Gender);
@@ -41,7 +41,7 @@ function Editemployee({ selectedEmployee, updateEmployee, clearSelectedEmployee 
       Name: name,
       Email: email,
       Number: number,
-      Image: image,
+      Image: image ? URL.createObjectURL(image) : null, // Handle image preview
       Position: position,
       ID: id,
       Gender: gender,
@@ -54,12 +54,16 @@ function Editemployee({ selectedEmployee, updateEmployee, clearSelectedEmployee 
     clearSelectedEmployee();
   };
 
+  const handleImageChange = (event) => {
+    if (event.target.files.length > 0) {
+      setImage(event.target.files[0]);
+    }
+  };
+
   return (
     <div id="edit" className="container-sm">
-      <div>
+      <div className="column">
         <h3>Update Employee Info</h3>
-      </div>
-      <div>
         <h2>Employee Form</h2>
         <form>
           <table>
@@ -104,12 +108,12 @@ function Editemployee({ selectedEmployee, updateEmployee, clearSelectedEmployee 
                 <td>Image</td>
                 <td>
                   <input
-                    type="text"
+                    type="file"
                     name="image"
-                    onChange={(e) => setImage(e.target.value)}
-                    value={image}
-                    placeholder="Image URL"
+                    onChange={handleImageChange}
+                    accept="image/*" 
                   />
+                  {image && <img src={URL.createObjectURL(image)} alt="Preview" className="image-preview" />} {/* Preview image */}
                 </td>
               </tr>
               <tr>
@@ -139,13 +143,15 @@ function Editemployee({ selectedEmployee, updateEmployee, clearSelectedEmployee 
               <tr>
                 <td>Gender</td>
                 <td>
-                  <input
-                    type="text"
+                  <select
                     name="gender"
                     onChange={(e) => setGender(e.target.value)}
                     value={gender}
-                    placeholder="Gender"
-                  />
+                  >
+                    <option value="" disabled>Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
                 </td>
               </tr>
               <tr>
@@ -163,13 +169,22 @@ function Editemployee({ selectedEmployee, updateEmployee, clearSelectedEmployee 
               <tr>
                 <td>Province</td>
                 <td>
-                  <input
-                    type="text"
+                  <select
                     name="province"
                     onChange={(e) => setProvince(e.target.value)}
                     value={province}
-                    placeholder="Province"
-                  />
+                  >
+                    <option value="" disabled>Select Province</option>
+                    <option value="Gauteng">Gauteng</option>
+                    <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                    <option value="Western Cape">Western Cape</option>
+                    <option value="Eastern Cape">Eastern Cape</option>
+                    <option value="Limpopo">Limpopo</option>
+                    <option value="Mpumalanga">Mpumalanga</option>
+                    <option value="North West">North West</option>
+                    <option value="Free State">Free State</option>
+                    <option value="Northern Cape">Northern Cape</option>
+                  </select>
                 </td>
               </tr>
               <tr>
