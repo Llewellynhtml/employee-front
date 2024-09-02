@@ -130,7 +130,7 @@ function AddEmployeeInformation(props) {
           onChange={(event) => setZipCode(event.target.value)}
         />
       </div>
-      <button onClick={add} className="submit-button">Add information</button>
+      <button onClick={add} className="Add-button">Add information</button>
     </div>
   );
 }

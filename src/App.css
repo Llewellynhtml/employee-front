@@ -392,21 +392,20 @@ th {
 
 .form-container {
   display: grid;
-  grid-template-columns: 1fr 1fr; 
-  box-shadow: #485878f7;
-  margin-top: 5%;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+  gap: 20px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(2, 194, 243, 0.23);
+  margin: 80px auto;
+  max-width: 900px; 
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 80px;
 }
 
-.left-column {
+.left-column, .right-column {
   display: flex;
   flex-direction: column;
-  padding-left: 50%;
-}
-
-.right-column {
-  display: flex;
-  flex-direction: column;
-  padding-right: 50%;
 }
 
 .input-name,
@@ -419,33 +418,39 @@ th {
 .input-image,
 .select-gender,
 .select-province {
-  width: 421px;
-  height: 80px;
+  width: 100%;
+  height: 50px;
+  margin-bottom: 40px;
 }
 
 .input-image {
-  margin-bottom: 0; 
+  height: auto; 
+  margin-bottom: 10px; 
 }
 
 .image-preview {
   width: 100px;
   height: 100px;
-  margin-top: 10px;
   object-fit: cover;
+  margin-top: 10px;
 }
 
-.submit-button {
-  padding: 10px 20px;
-  background-color: #4CAF50; 
+.Add-button {
+  grid-column: span 2; 
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+  height: 45px;
+  background-color: #28a745;
   color: white;
   border: none;
   border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
-  margin-top: 50px;
-  border-radius: 10px;
+  transition: background-color 0.3s ease;
 }
 
-.submit-button:hover {
-  background-color: #45a049; 
+.Add-button:hover {
+  background-color: #218838;
 }
 
