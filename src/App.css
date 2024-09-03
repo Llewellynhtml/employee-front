@@ -166,7 +166,7 @@ table {
   width: 100%;
   margin-top: 20px;
   border-collapse: collapse;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgb(14, 26, 29);
 }
 
 th, td {
@@ -358,7 +358,7 @@ th {
 .column {
   flex: 1;
   padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(42, 99, 128, 0.1);
   border-radius: 8px;
 }
 
@@ -395,7 +395,7 @@ th {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
   gap: 20px;
   padding: 20px;
-  box-shadow: 0 0 10px rgba(2, 194, 243, 0.23);
+  box-shadow: 0 0 10px rgb(37, 114, 133);
   margin: 80px auto;
   max-width: 900px; 
   background-color: #ffffff;
@@ -418,14 +418,14 @@ th {
 .input-image,
 .select-gender,
 .select-province {
-  width: 100%;
+  width: 415px;
   height: 50px;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 }
 
 .input-image {
   height: auto; 
-  margin-bottom: 10px; 
+  margin-bottom: 50px; 
 }
 
 .image-preview {
