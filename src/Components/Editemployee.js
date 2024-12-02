@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function Editemployee({ selectedEmployee, updateEmployee, clearSelectedEmployee }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
-  const [image, setImage] = useState(null); // Update to store the file
   const [position, setPosition] = useState("");
-  const [id, setId] = useState("");
+  const [id, setId] = useState(""); // The actual ID for updating employee
+  const [idNumber, setIdNumber] = useState(""); // The idNumber field (can stay in the form)
   const [gender, setGender] = useState("");
   const [city, setCity] = useState("");
   const [province, setProvince] = useState("");
@@ -17,13 +18,13 @@ function Editemployee({ selectedEmployee, updateEmployee, clearSelectedEmployee 
       setName(selectedEmployee.Name);
       setEmail(selectedEmployee.Email);
       setNumber(selectedEmployee.Number);
-      setImage(selectedEmployee.Image ? null : null); // Set image URL or null
       setPosition(selectedEmployee.Position);
-      setId(selectedEmployee.ID);
+      setId(selectedEmployee._id);  // Set id (the one for updating)
+      setIdNumber(selectedEmployee.idNumber);  // Keep idNumber as a field
       setGender(selectedEmployee.Gender);
       setCity(selectedEmployee.City);
       setProvince(selectedEmployee.Province);
-      setZipCode(selectedEmployee.ZipCode);
+      setZipCode(selectedEmployee.Zipcode);
     }
   }, [selectedEmployee]);
 
@@ -31,8 +32,8 @@ function Editemployee({ selectedEmployee, updateEmployee, clearSelectedEmployee 
     clearSelectedEmployee();
   };
 
-  const UpdateEmployee = () => {
-    if (!name || !email || !number) {
+  const UpdateEmployee = async () => {
+    if (!name || !email || !number || !position || !id || !gender || !city || !province || !zipCode) {
       alert("Please fill out all required fields.");
       return;
     }
@@ -41,174 +42,154 @@ function Editemployee({ selectedEmployee, updateEmployee, clearSelectedEmployee 
       Name: name,
       Email: email,
       Number: number,
-      Image: image ? URL.createObjectURL(image) : null, // Handle image preview
       Position: position,
-      ID: id,
+      idNumber: idNumber, 
+      _id: id,  
       Gender: gender,
       City: city,
       Province: province,
-      ZipCode: zipCode
+      Zipcode: zipCode,
     };
 
-    updateEmployee(updatedEmployee);
-    clearSelectedEmployee();
-  };
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/updateEmployee/${id}`, 
+        updatedEmployee
+      );
 
-  const handleImageChange = (event) => {
-    if (event.target.files.length > 0) {
-      setImage(event.target.files[0]);
+      if (response.status === 200) {
+        alert("Employee Updated Successfully!");
+        updateEmployee(updatedEmployee);  
+        clearSelectedEmployee();  
+      } else {
+        throw new Error(`Failed to update employee: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Error updating employee:", error);
+      const errorMessage = error.response
+        ? error.response.data.error || error.response.data.message || "Unknown error"
+        : error.message || "Unknown error";
+
+      alert("Error updating employee: " + errorMessage);
     }
   };
 
   return (
     <div id="edit" className="container-sm">
-      <div className="column">
-        <h3>Update Employee Info</h3>
-        <h2>Employee Form</h2>
-        <form>
-          <table>
-            <tbody>
-              <tr>
-                <td>Name</td>
-                <td>
-                  <input
-                    type="text"
-                    name="name"
-                    onChange={(e) => setName(e.target.value)}
-                    value={name}
-                    placeholder="Name"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Email</td>
-                <td>
-                  <input
-                    type="text"
-                    name="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                    placeholder="Email"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Number</td>
-                <td>
-                  <input
-                    type="text"
-                    name="number"
-                    onChange={(e) => setNumber(e.target.value)}
-                    value={number}
-                    placeholder="Number"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Image</td>
-                <td>
-                  <input
-                    type="file"
-                    name="image"
-                    onChange={handleImageChange}
-                    accept="image/*" 
-                  />
-                  {image && <img src={URL.createObjectURL(image)} alt="Preview" className="image-preview" />} {/* Preview image */}
-                </td>
-              </tr>
-              <tr>
-                <td>Position</td>
-                <td>
-                  <input
-                    type="text"
-                    name="position"
-                    onChange={(e) => setPosition(e.target.value)}
-                    value={position}
-                    placeholder="Position"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>ID</td>
-                <td>
-                  <input
-                    type="text"
-                    name="id"
-                    onChange={(e) => setId(e.target.value)}
-                    value={id}
-                    placeholder="ID"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Gender</td>
-                <td>
-                  <select
-                    name="gender"
-                    onChange={(e) => setGender(e.target.value)}
-                    value={gender}
-                  >
-                    <option value="" disabled>Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <td>City</td>
-                <td>
-                  <input
-                    type="text"
-                    name="city"
-                    onChange={(e) => setCity(e.target.value)}
-                    value={city}
-                    placeholder="City"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Province</td>
-                <td>
-                  <select
-                    name="province"
-                    onChange={(e) => setProvince(e.target.value)}
-                    value={province}
-                  >
-                    <option value="" disabled>Select Province</option>
-                    <option value="Gauteng">Gauteng</option>
-                    <option value="KwaZulu-Natal">KwaZulu-Natal</option>
-                    <option value="Western Cape">Western Cape</option>
-                    <option value="Eastern Cape">Eastern Cape</option>
-                    <option value="Limpopo">Limpopo</option>
-                    <option value="Mpumalanga">Mpumalanga</option>
-                    <option value="North West">North West</option>
-                    <option value="Free State">Free State</option>
-                    <option value="Northern Cape">Northern Cape</option>
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <td>Zip Code</td>
-                <td>
-                  <input
-                    type="text"
-                    name="zipcode"
-                    onChange={(e) => setZipCode(e.target.value)}
-                    value={zipCode}
-                    placeholder="Zip Code"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <button type="button" className="btn update-btn" onClick={UpdateEmployee}>
-            Update Employee
-          </button>
-          <button type="button" className="btn cancel-btn" onClick={CancelEdit}>
-            Cancel
-          </button>
-        </form>
-      </div>
+      <h3>Update Employee Info</h3>
+      <form>
+        <table>
+          <tbody>
+            <tr>
+              <td>Name</td>
+              <td>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter employee name"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter employee email"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Phone Number</td>
+              <td>
+                <input
+                  type="text"
+                  value={number}
+                  onChange={(e) => setNumber(e.target.value)}
+                  placeholder="Enter employee phone number"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Position</td>
+              <td>
+                <input
+                  type="text"
+                  value={position}
+                  onChange={(e) => setPosition(e.target.value)}
+                  placeholder="Enter employee position"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>ID Number</td>
+              <td>
+                <input
+                  type="text"
+                  value={idNumber}
+                  onChange={(e) => setIdNumber(e.target.value)}
+                  placeholder="Enter ID number"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Gender</td>
+              <td>
+                <select
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                >
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>City</td>
+              <td>
+                <input
+                  type="text"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="Enter employee city"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Province</td>
+              <td>
+                <input
+                  type="text"
+                  value={province}
+                  onChange={(e) => setProvince(e.target.value)}
+                  placeholder="Enter employee province"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Zip Code</td>
+              <td>
+                <input
+                  type="text"
+                  value={zipCode}
+                  onChange={(e) => setZipCode(e.target.value)}
+                  placeholder="Enter employee zip code"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colSpan={2} className="btn-container">
+                <button type="button" onClick={UpdateEmployee}>Update Employee</button>
+                <button type="button" onClick={CancelEdit}>Cancel</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
     </div>
   );
 }

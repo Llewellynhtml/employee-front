@@ -1,98 +1,128 @@
 import { useState } from "react";
+import axios from "axios";
 
-function AddEmployeeInformation(props) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [number, setNumber] = useState("");
-  const [image, setImage] = useState(""); 
-  const [position, setPosition] = useState("");
-  const [id, setId] = useState("");
-  const [gender, setGender] = useState("");
-  const [city, setCity] = useState("");
-  const [province, setProvince] = useState("");
-  const [zipCode, setZipCode] = useState("");
+function AddEmployeeInformation({ addEmployeeToList }) {
+  const [Name, setName] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Number, setNumber] = useState("");
+  const [Position, setPosition] = useState("");
+  const [idNumber, setIdNumber] = useState("");
+  const [Gender, setGender] = useState("");
+  const [City, setCity] = useState("");
+  const [Province, setProvince] = useState("");
+  const [ZipCode, setZipCode] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const add = () => {
-    if (!id || isNaN(id)) {
-      alert("Invalid ID. Please enter a valid ID.");
+  const add = async () => {
+    if (!idNumber || isNaN(idNumber)) {
+      alert("Invalid idNumber. Please enter a valid idNumber.");
       return;
     }
-    props.add(name, email, number, image, position, id, gender, city, province, zipCode);
-    alert("Employee added successfully!");
-    
+
+    const employeeData = {
+      Name,
+      Email,
+      Number,
+      Position,
+      idNumber,
+      Gender,
+      City,
+      Province,
+      ZipCode,
+    };
+
+    setLoading(true);
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/addEmployee", employeeData);
+
+      
+      console.log("Response:", response);
+
+      if (response.status === 201) {
+        alert("Employee added successfully!");
+        addEmployeeToList(employeeData);
+        resetForm();
+      } else {
+        
+        console.error("Unexpected response status:", response.status);
+        alert("Unexpected response status. Please try again.");
+      }
+    } catch (error) {
+  
+      console.error("Error adding employee:", error);
+
+      // If error response contains more details
+      if (error.response) {
+        console.error("Error response data:", error.response.data);
+        alert(`Error adding employee: ${error.response.data.message || error.response.statusText}`);
+      } else if (error.request) {
+        console.error("Error request:", error.request);
+        alert("No response received from server.");
+      } else {
+        console.error("Error message:", error.message);
+        alert("An error occurred while sending the request.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resetForm = () => {
     setName("");
     setEmail("");
     setNumber("");
-    setImage("");
     setPosition("");
-    setId("");
+    setIdNumber("");
     setGender("");
     setCity("");
     setProvince("");
     setZipCode("");
   };
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(reader.result); 
-      };
-      reader.readAsDataURL(file); 
-    }
-  };
-
   return (
     <div className="form-container">
       <div className="left-column">
         <input
-          className="input-name"
+          className="input-Name"
           type="text"
           placeholder="Name"
-          value={name}
+          value={Name}
           onChange={(event) => setName(event.target.value)}
         />
         <input
-          className="input-email"
+          className="input-Email"
           type="text"
           placeholder="Email"
-          value={email}
+          value={Email}
           onChange={(event) => setEmail(event.target.value)}
         />
         <input
           className="input-number"
           type="text"
           placeholder="Number"
-          value={number}
+          value={Number}
           onChange={(event) => setNumber(event.target.value)}
         />
         <input
-          className="input-image"
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-        />
-        {image && <img src={image} alt="Uploaded Preview" className="image-preview" />}
-        <input
-          className="input-position"
+          className="input-Position"
           type="text"
           placeholder="Position"
-          value={position}
+          value={Position}
           onChange={(event) => setPosition(event.target.value)}
         />
       </div>
       <div className="right-column">
         <input
-          className="input-id"
+          className="input-idNumber"
           type="text"
-          placeholder="ID"
-          value={id}
-          onChange={(event) => setId(event.target.value)}
+          placeholder="idNumber"
+          value={idNumber}
+          onChange={(event) => setIdNumber(event.target.value)}
         />
         <select
           className="select-gender"
-          value={gender}
+          value={Gender}
           onChange={(event) => setGender(event.target.value)}
         >
           <option value="" disabled>Select Gender</option>
@@ -100,15 +130,15 @@ function AddEmployeeInformation(props) {
           <option value="Female">Female</option>
         </select>
         <input
-          className="input-city"
+          className="input-City"
           type="text"
           placeholder="City"
-          value={city}
+          value={City}
           onChange={(event) => setCity(event.target.value)}
         />
         <select
-          className="select-province"
-          value={province}
+          className="select-Province"
+          value={Province}
           onChange={(event) => setProvince(event.target.value)}
         >
           <option value="" disabled>Select Province</option>
@@ -126,11 +156,13 @@ function AddEmployeeInformation(props) {
           className="input-zipcode"
           type="text"
           placeholder="ZipCode"
-          value={zipCode}
+          value={ZipCode}
           onChange={(event) => setZipCode(event.target.value)}
         />
       </div>
-      <button onClick={add} className="Add-button">Add information</button>
+      <button onClick={add} className="Add-button" disabled={loading}>
+        {loading ? "Adding..." : "Add Employee"}
+      </button>
     </div>
   );
 }

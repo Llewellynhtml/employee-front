@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 function Search({ employees, onSearch }) {
-  const [searchID, setSearchID] = useState("");
+  const [searchIDNumber, setSearchIDNumber] = useState("");
 
   const handleSearch = () => {
-    onSearch(searchID);
+    onSearch(searchIDNumber);
   };
 
   return (
@@ -13,8 +13,8 @@ function Search({ employees, onSearch }) {
       <input
         type="text"
         placeholder="Employee by Id"
-        value={searchID}
-        onChange={(e) => setSearchID(e.target.value)}
+        value={searchIDNumber}
+        onChange={(e) => setSearchIDNumber(e.target.value)}
       />
       <button onClick={handleSearch}>Search</button>
     </div>
